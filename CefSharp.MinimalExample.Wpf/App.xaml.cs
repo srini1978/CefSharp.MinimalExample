@@ -8,14 +8,13 @@ namespace CefSharp.MinimalExample.Wpf
     {
         public App()
         {
-            var settings = new CefSettings()
-            {
-                //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
-            };
-
-            //Perform dependency check to make sure all relevant resources are in our output directory.
-            Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+          using (var settings = new CefSettings())
+			{
+				settings.SetOffScreenRenderingBestPerformanceArgs();
+				settings.DisableGpuAcceleration();
+				settings.Locale = CultureInfo.CurrentCulture.Name;
+				Cef.Initialize(settings);
+			}
         }
     }
 }
